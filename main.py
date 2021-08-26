@@ -1,4 +1,4 @@
-#change wallpaper don't touch 
+
 
 import requests as rq
 import praw
@@ -8,6 +8,8 @@ from wallpaper import set_wallpaper, get_wallpaper
 import platform
 import os
 import time
+import PIL
+from PIL import Image
 
 
 def get_pic():
@@ -18,9 +20,10 @@ def get_pic():
 							password = "",
 							user_agent = "")
 
+								#your chosen subreddit
 	subreddit = reddit.subreddit("wallpaper")
-
-	top = subreddit.top(limit = 100)
+								#your chosen subreddit
+	top = subreddit.top(limit = 1000)
 
 	posts = []
 
@@ -33,6 +36,20 @@ def get_pic():
 
 
 	return(image)
+
+def check_res():
+
+
+    
+    img = PIL.Image.open("post.jpg")
+    
+    
+    wid, hgt = img.size
+    
+    
+    return(str(wid) + "x" + str(hgt))
+
+
 def set_wallpaper():
     get_wallpaper()
     #Check the operating system
@@ -57,9 +74,12 @@ while True:
 	with open("post.jpg", "wb") as f:
 		f.write(r.content)
 
+	res = check_res()
 
-	set_wallpaper()
+	if res == "1920x1080": #config this to your screen's resolution
 
-	time.sleep(43200)
 
-	print("set wallpaper!")
+		set_wallpaper()
+		print("set wallpaper!")
+		time.sleep(43200)
+	
